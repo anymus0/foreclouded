@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { GeoLocation } from './models/geoLocation';
 import { HttpWeatherService } from './http-weather.service';
+import { EventService } from './event.service';
 
 @Component({
   selector: 'app-root',
@@ -10,13 +10,10 @@ import { HttpWeatherService } from './http-weather.service';
 })
 export class AppComponent implements OnInit {
   locations: Array<GeoLocation> = [];
-  locationForm = this.fb.group({
-    locationQuery: ''
-  });
 
-  addLocation(): void {
+  private addLocation(locationQuery: string): void {
     // get the coordinates from the input query
-    this.weatherService.getCoords(this.locationForm.value.locationQuery).subscribe((location: any) => {
+    this.weatherService.getCoords(locationQuery).subscribe((location: any) => {
       // create a new GeoLocation obj
       const newGeoLocation: GeoLocation = {
         name: location.features[0].properties.label,
@@ -29,16 +26,16 @@ export class AppComponent implements OnInit {
       // localStorage only supports strings
       localStorage.setItem('locations', JSON.stringify(this.locations));
     });
-
-    // reset the input form
-    this.locationForm.value.locationQuery = '';
-    this.locationForm.reset();
   }
 
-  constructor(public fb: FormBuilder, public weatherService: HttpWeatherService) {}
+  constructor(public weatherService: HttpWeatherService, private eventService: EventService) {}
 
   ngOnInit(): void {
+    // get 'locations' arr from localStorage
     this.locations = JSON.parse(localStorage.getItem('locations'));
-    console.log(this.locations);
+    // sub to addNewLocation event in case user adds a new location
+    this.eventService.newLocationEventListener().subscribe(newLocationQuery => {
+      this.addLocation(newLocationQuery);
+    });
   }
 }

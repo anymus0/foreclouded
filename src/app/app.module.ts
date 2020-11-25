@@ -7,12 +7,16 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CityWeatherComponent } from './city-weather/city-weather.component';
 import { HourlyWeatherComponent } from './city-weather/hourly-weather/hourly-weather.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { LocationInputComponent } from './navbar/location-input/location-input.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CityWeatherComponent,
-    HourlyWeatherComponent
+    HourlyWeatherComponent,
+    NavbarComponent,
+    LocationInputComponent
   ],
   imports: [
     BrowserModule,
