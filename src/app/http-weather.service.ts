@@ -8,8 +8,11 @@ import { environment } from './../environments/environment';
 })
 export class HttpWeatherService {
 
+  // use 'geocodeapi.io' to get the coordinates of a given location
   getCoords(location: string): Observable<object> {
-    const url = `${environment.geocodeAPI_URL}/search?apikey=${environment.geocodeAPI_KEY}&text=${location}`;
+    // URL encode the input location
+    const encodedLocation = encodeURIComponent(location);
+    const url = `${environment.geocodeAPI_URL}/search?apikey=${environment.geocodeAPI_KEY}&text=${encodedLocation}`;
     const geoData$ = this.http.get(url);
     return geoData$;
   }
