@@ -29,9 +29,16 @@ export class AppComponent implements OnInit {
       // localStorage only supports strings
       localStorage.setItem('locations', JSON.stringify(this.locations));
     });
+
+    // reset the input form
+    this.locationForm.value.locationQuery = '';
+    this.locationForm.reset();
   }
 
   constructor(public fb: FormBuilder, public weatherService: HttpWeatherService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.locations = JSON.parse(localStorage.getItem('locations'));
+    console.log(this.locations);
+  }
 }
