@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { EventService } from '../../event.service';
 
@@ -8,7 +8,6 @@ import { EventService } from '../../event.service';
   styleUrls: ['./location-input.component.scss']
 })
 export class LocationInputComponent implements OnInit {
-  @Output() newLocationQuery = new EventEmitter<string>();
   locationForm = this.fb.group({
     locationQuery: ''
   });
