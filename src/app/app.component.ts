@@ -35,7 +35,10 @@ export class AppComponent implements OnInit {
     this.locations = JSON.parse(localStorage.getItem('locations'));
     // sub to addNewLocation event in case user adds a new location
     this.eventService.newLocationEventListener().subscribe(newLocationQuery => {
-      this.addLocation(newLocationQuery);
+      // don't send request with empty string
+      if (newLocationQuery !== '') {
+        this.addLocation(newLocationQuery);
+      }
     });
   }
 }
