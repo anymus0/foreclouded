@@ -1,22 +1,20 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-1">
-      <div class="row">
-        <div class="col">
-          <p class="themeSwitchLabel">Light/Dark</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="themeSwitch" checked>
-            <label class="custom-control-label" for="themeSwitch"></label>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <app-location-input></app-location-input>
-    </div>
+<nav class="navbar navbar-expand">
+  <p class="themeSwitchLabel mr-2">
+    <fa-icon [icon]="faSun"></fa-icon>
+  </p>
+  <div class="custom-control custom-switch">
+    <input
+      type="checkbox"
+      class="custom-control-input"
+      id="themeSwitch"
+      (change)="changeTheme()"
+      [(ngModel)]="isDarkTheme"
+    >
+    <label class="custom-control-label" for="themeSwitch"></label>
   </div>
-</div>
+  <p class="themeSwitchLabel">
+    <fa-icon [icon]="faMoon"></fa-icon>
+  </p>
+  <app-location-input></app-location-input>
+</nav>
+

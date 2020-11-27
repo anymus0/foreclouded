@@ -5,8 +5,10 @@
         <input class="input form-control" type="text" formControlName="locationQuery" placeholder="Type in a location">
       </form>
     </div>
-    <div class="col">
-      <button class="btn btn-success" (click)="onAddLocationClick()">add</button>
+    <div class="col-2">
+      <button class="btn" (click)="onAddLocationClick()">
+        <fa-icon [icon]="faPlus"></fa-icon>
+      </button>
     </div>
   </div>
 </div>

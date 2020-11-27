@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { EventService } from '../../event.service';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-location-input',
@@ -8,6 +9,7 @@ import { EventService } from '../../event.service';
   styleUrls: ['./location-input.component.scss']
 })
 export class LocationInputComponent implements OnInit {
+  faPlus = faPlus;
   locationForm = this.fb.group({
     locationQuery: ''
   });
