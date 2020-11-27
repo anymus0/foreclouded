@@ -1,3 +1,12 @@
 <app-navbar></app-navbar>
 
-
+<div class="container pt-5">
+  <div class="row">
+    <div class="col-6 pb-3" *ngFor="let location of locations">
+      <app-city-weather
+        [locationName]="location.name"
+      >
+      </app-city-weather>
+    </div>
+  </div>
+</div>

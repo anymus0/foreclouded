@@ -9,7 +9,7 @@ import { EventService } from './event.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  locations: Array<GeoLocation> = [];
+  locations: Array<GeoLocation> = [this.getCurrentLocation()];
 
   private addLocation(locationQuery: string): void {
     // get the coordinates from the input query
@@ -28,11 +28,29 @@ export class AppComponent implements OnInit {
     });
   }
 
+  // set 'locations' arr from localStorage if it exists
+  private setLocations(): void {
+    const localStorageLocations = JSON.parse(localStorage.getItem('locations'));
+    if (localStorageLocations !== null) {
+      this.locations = localStorageLocations;
+      this.locations[0] = this.getCurrentLocation();
+    }
+  }
+
+  private getCurrentLocation(): GeoLocation {
+    // current geoIP
+    const currentGeoLocation: GeoLocation = {
+      name: 'Erd',
+      latitude: 47,
+      longitude: 19
+    };
+    return currentGeoLocation;
+  }
+
   constructor(public weatherService: HttpWeatherService, private eventService: EventService) {}
 
   ngOnInit(): void {
-    // get 'locations' arr from localStorage
-    this.locations = JSON.parse(localStorage.getItem('locations'));
+    this.setLocations();
     // sub to addNewLocation event in case user adds a new location
     this.eventService.newLocationEventListener().subscribe(newLocationQuery => {
       // don't send request with empty string
