@@ -9,8 +9,8 @@ import { EventService } from './event.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  locations: Array<GeoLocation> = [];
-  currentLocation: GeoLocation = {
+  private locations: Array<GeoLocation> = [];
+  private currentLocation: GeoLocation = {
     name: '',
     latitude: null,
     longitude: null
