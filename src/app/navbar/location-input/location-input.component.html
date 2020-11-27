@@ -2,7 +2,12 @@
   <div class="row">
     <div class="col">
       <form [formGroup]="locationForm">
-        <input class="input form-control" type="text" formControlName="locationQuery" placeholder="Type in a location">
+        <input
+          class="input form-control"
+          type="text" formControlName="locationQuery"
+          placeholder="Type in a location"
+          (keyup.enter)="onAddLocationClick()"
+        >
       </form>
     </div>
     <div class="col-2">
