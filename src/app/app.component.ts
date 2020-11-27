@@ -9,7 +9,12 @@ import { EventService } from './event.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  locations: Array<GeoLocation> = [this.getCurrentLocation()];
+  locations: Array<GeoLocation> = [];
+  currentLocation: GeoLocation = {
+    name: '',
+    latitude: null,
+    longitude: null
+  };
 
   private addLocation(locationQuery: string): void {
     // get the coordinates from the input query
@@ -33,18 +38,43 @@ export class AppComponent implements OnInit {
     const localStorageLocations = JSON.parse(localStorage.getItem('locations'));
     if (localStorageLocations !== null) {
       this.locations = localStorageLocations;
-      this.locations[0] = this.getCurrentLocation();
+      // get current location
+      navigator.geolocation.getCurrentPosition((currentLocation) => {
+        // refresh the current location if it is changed
+        if (
+          currentLocation.coords.latitude !== this.locations[0].latitude &&
+          currentLocation.coords.longitude !== this.locations[0].longitude
+        ) {
+          this.setCurrentLocation();
+        }
+      });
+    }
+    else {
+      // set current location on 1st run & save it to localStorage
+      this.setCurrentLocation();
     }
   }
 
-  private getCurrentLocation(): GeoLocation {
-    // current geoIP
-    const currentGeoLocation: GeoLocation = {
-      name: 'Erd',
-      latitude: 47,
-      longitude: 19
-    };
-    return currentGeoLocation;
+  private setCurrentLocation(): void {
+    if (navigator.geolocation) {
+      // success callback
+      navigator.geolocation.getCurrentPosition((currentLocation) => {
+        const currentLat = currentLocation.coords.latitude;
+        const currentLon = currentLocation.coords.longitude;
+        this.weatherService.getLocationByCoords(currentLat, currentLon).subscribe((geoLocation: any) => {
+          // refresh 'currentLocation' with the new values
+          this.currentLocation.name = `${geoLocation.features[0].properties.locality}, ${geoLocation.features[0].properties.country}`;
+          this.currentLocation.latitude = currentLat;
+          this.currentLocation.longitude = currentLon;
+          // save the refreshed 'currentLocation' to the 'locations' arr
+          this.locations[0] = this.currentLocation;
+          // save 'locations' arr to localStorage with the new 'currentLocation'
+          localStorage.setItem('locations', JSON.stringify(this.locations));
+        });
+      });
+    } else {
+      console.log('Couldn\'t get the current position!');
+    }
   }
 
   constructor(public weatherService: HttpWeatherService, private eventService: EventService) {}

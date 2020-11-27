@@ -17,6 +17,13 @@ export class HttpWeatherService {
     return geoData$;
   }
 
+  getLocationByCoords(lat: number, lon: number): Observable<object> {
+    console.log('asd from asd');
+    const url = `${environment.geocodeAPI_URL}/reverse?apikey=${environment.geocodeAPI_KEY}&point.lat=${lat}&point.lon=${lon}`;
+    const geoData$ = this.http.get(url);
+    return geoData$;
+  }
+
   // use the 'openweathermap.org' API to get weather data
   getOpenWeatherOneCall(lat: number, lon: number): Observable<object> {
     const url = `${environment.geocodeAPI_URL}/onecall?lat=${lat}&lon=${lon}&appid=${environment.openweatherAPI_KEY}&units=metric&exclude=minutely`;
