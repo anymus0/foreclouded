@@ -71,7 +71,9 @@ export class AppComponent implements OnInit {
           // save 'locations' arr to localStorage with the new 'currentLocation'
           localStorage.setItem('locations', JSON.stringify(this.locations));
         });
-      });
+      },
+      (err => { console.log(err); }),
+      { enableHighAccuracy: true });
     } else {
       console.log('Couldn\'t get the current position!');
     }
