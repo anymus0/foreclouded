@@ -25,7 +25,7 @@ export class HttpWeatherService {
 
   // use the 'openweathermap.org' API to get weather data
   getOpenWeatherOneCall(lat: number, lon: number): Observable<object> {
-    const url = `${environment.geocodeAPI_URL}/onecall?lat=${lat}&lon=${lon}&appid=${environment.openweatherAPI_KEY}&units=metric&exclude=minutely`;
+    const url = `${environment.openweatherAPI_URL}/onecall?lat=${lat}&lon=${lon}&appid=${environment.openweatherAPI_KEY}&units=metric&exclude=minutely`;
     const weatherData$ = this.http.get(url);
     return weatherData$;
   }
