@@ -3,11 +3,12 @@
     <div class="container">
       <div class="row">
         <div class="col-11">
+          <p *ngIf="isCurrentLocation">Current location:</p>
           <h4 class="card-title">{{ geoLocation.name }}</h4>
         </div>
         <div class="col-1">
           <button class="btn removeBtn" (click)="onRemoveClick(geoLocation)">
-            <fa-icon [icon]="faTrash"></fa-icon>
+            <fa-icon [icon]="faTrash" *ngIf="!isCurrentLocation"></fa-icon>
           </button>
         </div>
       </div>
@@ -22,7 +23,5 @@
         </div>
       </div>
     </div>
-
-
   </div>
 </div>

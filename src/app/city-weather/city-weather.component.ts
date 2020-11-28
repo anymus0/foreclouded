@@ -11,6 +11,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 export class CityWeatherComponent implements OnInit {
   @Input() geoLocation: GeoLocation;
   @Output() geoLocationToRemove = new EventEmitter<GeoLocation>();
+  @Input() isCurrentLocation: boolean;
   weatherData: any;
   faTrash = faTrash;
 
