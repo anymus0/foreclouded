@@ -77,6 +77,15 @@ export class AppComponent implements OnInit {
     }
   }
 
+  removeCity(geoLocation: GeoLocation): void {
+    // remove the specified geoLocation from 'locations' arr
+    this.locations = this.locations.filter((location) => {
+      return location !== geoLocation;
+    });
+    // save the refreshed arr to localStorage
+    localStorage.setItem('locations', JSON.stringify(this.locations));
+  }
+
   constructor(public weatherService: HttpWeatherService, private eventService: EventService) {}
 
   ngOnInit(): void {
