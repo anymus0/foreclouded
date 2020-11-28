@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { HttpWeatherService } from './../http-weather.service';
 import { GeoLocation } from './../models/geoLocation';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-city-weather',
@@ -9,7 +10,9 @@ import { GeoLocation } from './../models/geoLocation';
 })
 export class CityWeatherComponent implements OnInit {
   @Input() geoLocation: GeoLocation;
+  @Output() geoLocationToRemove = new EventEmitter<GeoLocation>();
   weatherData: any;
+  faTrash = faTrash;
 
   constructor(public weatherService: HttpWeatherService) {}
 
@@ -19,6 +22,10 @@ export class CityWeatherComponent implements OnInit {
         this.weatherData = weatherData;
       }
     );
+  }
+
+  onRemoveClick(geoLocation: GeoLocation): void {
+    this.geoLocationToRemove.emit(geoLocation);
   }
 
   ngOnInit(): void {

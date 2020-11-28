@@ -1,7 +1,28 @@
 <div class="card">
-  <img class="card-img-top" src="" alt="">
   <div class="card-body">
-    <h4 class="card-title">{{ geoLocation.name }}</h4>
-    <p class="card-text currentTemp">{{ weatherData.current.temp }} ℃</p>
+    <div class="container">
+      <div class="row">
+        <div class="col-11">
+          <h4 class="card-title">{{ geoLocation.name }}</h4>
+        </div>
+        <div class="col-1">
+          <button class="btn removeBtn" (click)="onRemoveClick(geoLocation)">
+            <fa-icon [icon]="faTrash"></fa-icon>
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <ng-template [ngIf]="weatherData" [ngIfElse]="loading">
+            <p class="card-text currentTemp">{{ weatherData.current.temp }} ℃</p>
+          </ng-template>
+          <ng-template #loading>
+            <p>Loading...</p>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+
   </div>
 </div>
