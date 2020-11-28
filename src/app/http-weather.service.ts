@@ -18,7 +18,6 @@ export class HttpWeatherService {
   }
 
   getLocationByCoords(lat: number, lon: number): Observable<object> {
-    console.log('asd from asd');
     const url = `${environment.geocodeAPI_URL}/reverse?apikey=${environment.geocodeAPI_KEY}&point.lat=${lat}&point.lon=${lon}`;
     const geoData$ = this.http.get(url);
     return geoData$;

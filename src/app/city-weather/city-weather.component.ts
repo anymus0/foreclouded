@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { HttpWeatherService } from './../http-weather.service';
+import { GeoLocation } from './../models/geoLocation';
 
 @Component({
   selector: 'app-city-weather',
@@ -6,11 +8,12 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./city-weather.component.scss']
 })
 export class CityWeatherComponent implements OnInit {
-  @Input() locationName: string;
+  @Input() geoLocation: GeoLocation;
 
-  constructor() { }
+  constructor(public weatherService: HttpWeatherService) {}
 
   ngOnInit(): void {
+    // this.weatherService.getOpenWeatherOneCall().subscribe();
   }
 
 }
