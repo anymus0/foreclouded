@@ -9,11 +9,20 @@ import { GeoLocation } from './../models/geoLocation';
 })
 export class CityWeatherComponent implements OnInit {
   @Input() geoLocation: GeoLocation;
+  weatherData: any;
 
   constructor(public weatherService: HttpWeatherService) {}
 
+  private getWeatherData(): void {
+    this.weatherService.getOpenWeatherOneCall(this.geoLocation.latitude, this.geoLocation.longitude).subscribe(
+      (weatherData: any) => {
+        this.weatherData = weatherData;
+      }
+    );
+  }
+
   ngOnInit(): void {
-    // this.weatherService.getOpenWeatherOneCall().subscribe();
+    this.getWeatherData();
   }
 
 }
