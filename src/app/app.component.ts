@@ -22,8 +22,8 @@ export class AppComponent implements OnInit {
       // create a new GeoLocation obj
       const newGeoLocation: GeoLocation = {
         name: location.features[0].properties.label,
-        latitude: location.features[0].geometry.coordinates[0],
-        longitude: location.features[0].geometry.coordinates[1]
+        latitude: location.features[0].geometry.coordinates[1],
+        longitude: location.features[0].geometry.coordinates[0]
       };
       // add the 'newGeoLocation' to the 'locations' arr
       this.locations.push(newGeoLocation);
