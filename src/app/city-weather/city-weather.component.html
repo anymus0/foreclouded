@@ -1,27 +1,30 @@
-<div class="card">
-  <div class="card-body">
-    <div class="container">
-      <div class="row">
-        <div class="col-11">
-          <p *ngIf="isCurrentLocation">Current location:</p>
-          <h4 class="card-title">{{ geoLocation.name }}</h4>
+<ng-template [ngIf]="weatherData" [ngIfElse]="loading">
+  <div class="card" appDynamicBackground>
+    <div class="card-body">
+      <div class="container">
+        <div class="row">
+          <div class="col-11">
+
+            <img src="https://openweathermap.org/img/wn/01n.png">
+            <p>{{ weatherData.lastUpdated | date:'EEE, h:mm aaa' }}</p>
+            <h4 class="card-title">{{ geoLocation.name }}</h4>
+          </div>
+          <div class="col-1" *ngIf="!isCurrentLocation">
+            <button class="btn removeBtn" (click)="onRemoveClick(geoLocation)">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </div>
         </div>
-        <div class="col-1" *ngIf="!isCurrentLocation">
-          <button class="btn removeBtn" (click)="onRemoveClick(geoLocation)">
-            <fa-icon [icon]="faTrash"></fa-icon>
-          </button>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <ng-template [ngIf]="weatherData" [ngIfElse]="loading">
-            <p class="card-text currentTemp">{{ weatherData.current.temp }} ℃</p>
-          </ng-template>
-          <ng-template #loading>
-            <p>Loading...</p>
-          </ng-template>
+        <div class="row">
+          <div class="col">
+            <p class="card-text currentTemp">{{ weatherData.temp }} ℃</p>
+            <p *ngIf="isCurrentLocation"><strong>Current location</strong></p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</ng-template>
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>
