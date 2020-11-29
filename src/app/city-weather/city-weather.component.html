@@ -6,9 +6,9 @@
           <p *ngIf="isCurrentLocation">Current location:</p>
           <h4 class="card-title">{{ geoLocation.name }}</h4>
         </div>
-        <div class="col-1">
+        <div class="col-1" *ngIf="!isCurrentLocation">
           <button class="btn removeBtn" (click)="onRemoveClick(geoLocation)">
-            <fa-icon [icon]="faTrash" *ngIf="!isCurrentLocation"></fa-icon>
+            <fa-icon [icon]="faTrash"></fa-icon>
           </button>
         </div>
       </div>
