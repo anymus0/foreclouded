@@ -4,8 +4,7 @@
       <div class="container">
         <div class="row">
           <div class="col-11">
-
-            <img src="https://openweathermap.org/img/wn/01n.png">
+            <img src="http://openweathermap.org/img/wn/{{ weatherData.weather.icon }}.png">
             <p>{{ weatherData.lastUpdated | date:'EEE, h:mm aaa' }}</p>
             <h4 class="card-title">{{ geoLocation.name }}</h4>
           </div>
