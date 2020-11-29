@@ -5,3 +5,15 @@ button {
 button:hover {
   background-color: var(--succes-secondary-color);
 }
+
+input {
+  background-color: var(--primary-color);
+  color: var(--font-color);
+  border: none;
+}
+
+input:focus {
+  background-color: var(--primary-color);
+  color: var(--font-color);
+  border: none;
+}
