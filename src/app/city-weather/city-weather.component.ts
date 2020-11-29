@@ -53,7 +53,7 @@ export class CityWeatherComponent implements OnInit {
     return new Date(cityDateString);
   }
 
-  protected onRemoveClick(geoLocation: GeoLocation): void {
+  onRemoveClick(geoLocation: GeoLocation): void {
     this.geoLocationToRemove.emit(geoLocation);
   }
 
