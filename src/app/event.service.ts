@@ -5,10 +5,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class EventService {
-  private addNewLocationEvent = new BehaviorSubject<string>('');
+  private addNewLocationEvent = new BehaviorSubject<string>(null);
 
   emitNewLocationEvent(location: string): void {
-    this.addNewLocationEvent.next(location);
+    // validate 'location' string
+    if (location !== null && location !== '') {
+      this.addNewLocationEvent.next(location);
+    }
   }
 
   newLocationEventListener(): Observable<string> {

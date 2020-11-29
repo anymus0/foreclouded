@@ -95,7 +95,7 @@ export class AppComponent implements OnInit {
     // sub to addNewLocation event in case user adds a new location
     this.eventService.newLocationEventListener().subscribe(newLocationQuery => {
       // don't send request with empty string
-      if (newLocationQuery !== '') {
+      if (newLocationQuery !== null && newLocationQuery !== '') {
         this.addLocation(newLocationQuery);
       }
     });

@@ -11,13 +11,16 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 export class LocationInputComponent implements OnInit {
   faPlus = faPlus;
   locationForm = this.fb.group({
-    locationQuery: ''
+    locationQuery: null
   });
 
   onAddLocationClick(): void {
-    this.eventService.emitNewLocationEvent(this.locationForm.value.locationQuery);
+    // validate input string here
+    if (this.locationForm.value.locationQuery !== null && this.locationForm.value.locationQuery !== '') {
+      this.eventService.emitNewLocationEvent(this.locationForm.value.locationQuery);
+    }
     // reset the input form
-    this.locationForm.value.locationQuery = '';
+    this.locationForm.value.locationQuery = null;
     this.locationForm.reset();
   }
 
