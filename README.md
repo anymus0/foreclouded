@@ -1,5 +1,10 @@
 # Foreclouded
 
+## 3rd party APIs
+You'll have to put <b>your own</b> API keys into the environment.ts files for the following APIs:
+- [Openweathermap](https://openweathermap.org/)
+- [geocodeapi](https://geocodeapi.io/)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.2.
 
 ## Development server
