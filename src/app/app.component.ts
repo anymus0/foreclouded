@@ -79,7 +79,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  removeCity(geoLocation: GeoLocation): void {
+  protected removeCity(geoLocation: GeoLocation): void {
     // remove the specified geoLocation from 'locations' arr
     this.locations = this.locations.filter((location) => {
       return location !== geoLocation;
