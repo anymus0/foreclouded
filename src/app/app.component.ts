@@ -13,7 +13,8 @@ export class AppComponent implements OnInit {
   private currentLocation: GeoLocation = {
     name: '',
     latitude: null,
-    longitude: null
+    longitude: null,
+    background: null
   };
 
   private addLocation(locationQuery: string): void {
@@ -23,7 +24,8 @@ export class AppComponent implements OnInit {
       const newGeoLocation: GeoLocation = {
         name: location.features[0].properties.label,
         latitude: location.features[0].geometry.coordinates[1],
-        longitude: location.features[0].geometry.coordinates[0]
+        longitude: location.features[0].geometry.coordinates[0],
+        background: null
       };
       // add the 'newGeoLocation' to the 'locations' arr
       this.locations.push(newGeoLocation);

@@ -1,14 +1,14 @@
 <ng-template [ngIf]="weatherData" [ngIfElse]="loading">
-  <div class="card" appDynamicBackground>
+  <div class="card" [appDynamicBackground]="geoLocation.background">
     <div class="card-body">
       <div class="container">
         <div class="row">
-          <div class="col-11">
+          <div class="col-10">
             <img src="http://openweathermap.org/img/wn/{{ weatherData.weather.icon }}.png">
             <p>{{ weatherData.lastUpdated | date:'EEE, h:mm aaa' }}</p>
             <h4 class="card-title">{{ geoLocation.name }}</h4>
           </div>
-          <div class="col-1" *ngIf="!isCurrentLocation">
+          <div class="col-2" *ngIf="!isCurrentLocation">
             <button class="btn removeBtn" (click)="onRemoveClick(geoLocation)">
               <fa-icon [icon]="faTrash"></fa-icon>
             </button>

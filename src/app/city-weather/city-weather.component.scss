@@ -2,8 +2,11 @@
   background-color: var(--secondary-color);
   height: 40vh;
   border-radius: 2rem;
+  border-style: none;
+  border-width: 0px;
   box-shadow: rgba(0, 0, 0, 0.35) 20px 20px 30px;
   padding: 1rem;
+  color: black;
 }
 
 .card-title {

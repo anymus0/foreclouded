@@ -57,7 +57,25 @@ export class CityWeatherComponent implements OnInit {
     this.geoLocationToRemove.emit(geoLocation);
   }
 
+  private setBackground(bgUrl: string): void {
+    const locations: Array<GeoLocation> = JSON.parse(localStorage.getItem('locations'));
+    // find index of current city
+    let i = 0;
+    locations.forEach((location, index) => {
+      if (location.name === this.geoLocation.name) {
+        i = index;
+      }
+    });
+    // set background URL for current city & save it back to localStorage
+    locations[i].background = bgUrl;
+    localStorage.setItem('locations', JSON.stringify(locations));
+    // update current geoLocation
+    this.geoLocation.background = bgUrl;
+    console.log(this.geoLocation.background);
+  }
+
   ngOnInit(): void {
     this.getWeatherData();
+    this.setBackground(null);
   }
 }
