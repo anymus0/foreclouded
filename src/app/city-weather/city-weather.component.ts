@@ -85,5 +85,9 @@ export class CityWeatherComponent implements OnInit {
 
   ngOnInit(): void {
     this.getWeatherData();
+    // refresh weather data every 5 minutes
+    setInterval(() => {
+      this.getWeatherData();
+    }, 300000);
   }
 }
