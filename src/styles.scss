@@ -35,3 +35,16 @@ body {
   color: var(--font-color);
   border: none;
 }
+
+.card {
+  height: 350px;
+  background-color: var(--secondary-color);
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 2rem;
+  border-style: none;
+  border-width: 0px;
+  box-shadow: rgba(0, 0, 0, 0.35) 20px 20px 30px;
+  padding: 1rem;
+  color: black;
+}
