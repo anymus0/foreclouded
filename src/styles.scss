@@ -11,8 +11,8 @@
 }
 
 .lightTheme {
-  --primary-color: var(--light);
-  --secondary-color: var(--white);
+  --primary-color: white;
+  --secondary-color: var(--light);
   --font-color: var(--dark);
 }
 
@@ -22,4 +22,16 @@ html, body {
 body {
   background-color: var(--primary-color);
   color: var(--font-color);
+}
+
+.form-control {
+  background-color: var(--primary-color);
+  color: var(--font-color);
+  border: none;
+}
+
+.form-control:focus {
+  background-color: var(--primary-color);
+  color: var(--font-color);
+  border: none;
 }

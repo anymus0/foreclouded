@@ -11,7 +11,7 @@ export class DynamicBackgroundDirective implements OnInit, OnChanges {
 
   private setBackground(): void {
     if (this.bgURL === null) {
-      this.el.nativeElement.style.backgroundImage = `url("https://designmadeinjapan.com/site/wp-content/uploads/2015/07/tumblr_nr2569nqX01qze3hdo1_r2_500.gif")`;
+      this.el.nativeElement.style.backgroundImage = `url("../assets/defaultBg.gif")`;
     } else {
       this.el.nativeElement.style.backgroundImage = `url("${this.bgURL}")`;
     }

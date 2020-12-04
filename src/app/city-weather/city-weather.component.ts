@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { HttpWeatherService } from './../http-weather.service';
+import { FormBuilder } from '@angular/forms';
 import { OpenWeatherOneCall, Hourly } from './../models/openWeatherOneCall';
 import { GeoLocation } from './../models/geoLocation';
 import { WeatherData, HourlyReport } from './../models/weatherData';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faImage, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-city-weather',
@@ -15,9 +16,12 @@ export class CityWeatherComponent implements OnInit {
   @Output() geoLocationToRemove = new EventEmitter<GeoLocation>();
   @Input() isCurrentLocation: boolean;
   weatherData: WeatherData;
+  bgURLForm = this.fb.group({
+    bgURLInput: null
+  });
   faTrash = faTrash;
-
-  constructor(public weatherService: HttpWeatherService) {}
+  faImage = faImage;
+  faPlus = faPlus;
 
   private getWeatherData(): void {
     this.weatherService.getOpenWeatherOneCall(this.geoLocation.latitude, this.geoLocation.longitude).subscribe(
@@ -57,7 +61,11 @@ export class CityWeatherComponent implements OnInit {
     this.geoLocationToRemove.emit(geoLocation);
   }
 
-  private setBackground(bgUrl: string): void {
+  public setBackground(bgUrl: string): void {
+    if (bgUrl === '') {
+      // set to null if string is empty
+      bgUrl = null;
+    }
     const locations: Array<GeoLocation> = JSON.parse(localStorage.getItem('locations'));
     // find index of current city
     let i = 0;
@@ -71,11 +79,11 @@ export class CityWeatherComponent implements OnInit {
     localStorage.setItem('locations', JSON.stringify(locations));
     // update current geoLocation
     this.geoLocation.background = bgUrl;
-    console.log(this.geoLocation.background);
   }
+
+  constructor(public fb: FormBuilder, public weatherService: HttpWeatherService) {}
 
   ngOnInit(): void {
     this.getWeatherData();
-    this.setBackground(null);
   }
 }
