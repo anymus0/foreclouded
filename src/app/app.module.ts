@@ -12,6 +12,8 @@ import { HourlyWeatherComponent } from './city-weather/hourly-weather/hourly-wea
 import { NavbarComponent } from './navbar/navbar.component';
 import { LocationInputComponent } from './navbar/location-input/location-input.component';
 import { DynamicBackgroundDirective } from './dynamic-background.directive';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { DynamicBackgroundDirective } from './dynamic-background.directive';
     ReactiveFormsModule,
     FormsModule,
     FontAwesomeModule,
-    BsDropdownModule.forRoot()
+    BsDropdownModule.forRoot(),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]
