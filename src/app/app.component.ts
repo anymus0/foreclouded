@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Network } from '@ngx-pwa/offline';
 import { GeoLocation } from './models/geoLocation';
 import { HttpWeatherService } from './http-weather.service';
 import { EventService } from './event.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +11,7 @@ import { EventService } from './event.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  public online: boolean;
   public locations: Array<GeoLocation> = [];
   private currentLocation: GeoLocation = {
     name: '',
@@ -90,7 +93,12 @@ export class AppComponent implements OnInit {
     localStorage.setItem('locations', JSON.stringify(this.locations));
   }
 
-  constructor(public weatherService: HttpWeatherService, private eventService: EventService) {}
+  constructor(protected network: Network, public weatherService: HttpWeatherService, private eventService: EventService) {
+    this.network.onlineChanges.subscribe(onlineStatus => {
+      this.online = onlineStatus;
+      console.log(this.online);
+    });
+  }
 
   ngOnInit(): void {
     this.setLocations();
