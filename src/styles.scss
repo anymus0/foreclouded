@@ -31,6 +31,10 @@ body {
   border-radius: var(--border-2);
 }
 
+.btn:hover {
+  opacity: 50%;
+}
+
 .form-control {
   background-color: var(--primary-color);
   color: var(--font-color);
