@@ -14,6 +14,7 @@ import { LocationInputComponent } from './navbar/location-input/location-input.c
 import { DynamicBackgroundDirective } from './dynamic-background.directive';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { CityWeatherSettingsComponent } from './city-weather-settings/city-weather-settings.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { environment } from '../environments/environment';
     HourlyWeatherComponent,
     NavbarComponent,
     LocationInputComponent,
-    DynamicBackgroundDirective
+    DynamicBackgroundDirective,
+    CityWeatherSettingsComponent
   ],
   imports: [
     BrowserModule,

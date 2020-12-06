@@ -4,7 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { OpenWeatherOneCall, Hourly } from './../models/openWeatherOneCall';
 import { GeoLocation } from './../models/geoLocation';
 import { WeatherData, HourlyReport } from './../models/weatherData';
-import { faTrash, faImage, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faImage, faPlus, faCogs } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
 })
 export class CityWeatherComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
+  public isSettings = false;
   @Input() geoLocation: GeoLocation;
   @Output() geoLocationToRemove = new EventEmitter<GeoLocation>();
   @Input() isCurrentLocation: boolean;
@@ -24,6 +25,7 @@ export class CityWeatherComponent implements OnInit, OnDestroy {
   faTrash = faTrash;
   faImage = faImage;
   faPlus = faPlus;
+  faCogs = faCogs;
 
   private getWeatherData(): void {
     this.subscriptions.push(

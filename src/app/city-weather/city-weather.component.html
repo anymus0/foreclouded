@@ -1,5 +1,9 @@
 <ng-template [ngIf]="weatherData" [ngIfElse]="loading">
-  <div class="card" [appDynamicBackground]="geoLocation.background">
+  <div
+    class="card"
+    [appDynamicBackground]="geoLocation.background"
+    *ngIf="!isSettings"
+  >
     <div class="card-body">
       <div class="container">
         <div class="row">
@@ -47,6 +51,11 @@
             </div>
           </div>
           <div class="col-2">
+            <button class="btn text-muted" (click)="isSettings = !isSettings">
+              <fa-icon [icon]="faCogs"></fa-icon>
+            </button>
+          </div>
+          <div class="col-2">
             <button *ngIf="!isCurrentLocation" class="btn text-danger" (click)="onRemoveClick(geoLocation)">
               <fa-icon [icon]="faTrash"></fa-icon>
             </button>
@@ -70,6 +79,11 @@
       </div>
     </div>
   </div>
+  <app-city-weather-settings
+    *ngIf="isSettings"
+    (click)="isSettings = !isSettings"
+  >
+  </app-city-weather-settings>
 </ng-template>
 <ng-template #loading>
   <p>Loading...</p>
