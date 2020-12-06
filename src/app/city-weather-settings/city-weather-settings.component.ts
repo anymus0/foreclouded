@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { EventService } from '../event.service';
 import { faTrash, faImage, faPlus, faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import { GeoLocation, Option } from './../models/geoLocation';
 
@@ -35,11 +36,15 @@ export class CityWeatherSettingsComponent implements OnInit {
     );
   }
 
+  onRemoveClick(): void {
+    this.eventService.emitRemoveLocationEvent(this.locations[this.currentLocationIndex]);
+  }
+
   public onClose(): void {
     this.closeEvent.emit(false);
   }
 
-  constructor(public fb: FormBuilder) { }
+  constructor(public eventService: EventService, public fb: FormBuilder) { }
 
   ngOnInit(): void {
     // get locations from localStorage

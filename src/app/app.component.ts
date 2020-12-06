@@ -86,10 +86,10 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  removeCity(geoLocation: GeoLocation): void {
-    // remove the specified geoLocation from 'locations' arr
+  private removeCity(geoLocation: GeoLocation): void {
+    // remove the specified geoLocation by its name from 'locations' arr
     this.locations = this.locations.filter((location) => {
-      return location !== geoLocation;
+      return location.name !== geoLocation.name;
     });
     // save the refreshed arr to localStorage
     localStorage.setItem('locations', JSON.stringify(this.locations));
@@ -122,11 +122,19 @@ export class AppComponent implements OnInit, OnDestroy {
     );
     this.setLocations();
     this.subscriptions.push(
-      // sub to addNewLocation event in case user adds a new location
+      // sub to addNewLocation event
       this.eventService.newLocationEventListener().subscribe(newLocationQuery => {
         // don't send request with empty string
         if (newLocationQuery !== null && newLocationQuery !== '') {
           this.addLocation(newLocationQuery);
+        }
+      })
+    );
+    this.subscriptions.push(
+      // sub to removeLocationEvent
+      this.eventService.removeLocationEventListener().subscribe(geoLocationToRemove => {
+        if (geoLocationToRemove !== null) {
+          this.removeCity(geoLocationToRemove);
         }
       })
     );

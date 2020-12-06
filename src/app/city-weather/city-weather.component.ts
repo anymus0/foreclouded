@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { HttpWeatherService } from './../http-weather.service';
 import { OpenWeatherOneCall, Hourly } from './../models/openWeatherOneCall';
-import { GeoLocation, Option } from './../models/geoLocation';
+import { GeoLocation } from './../models/geoLocation';
 import { WeatherData, HourlyReport } from './../models/weatherData';
 import { faTrash, faImage, faPlus, faCogs } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
@@ -13,9 +13,8 @@ import { Subscription } from 'rxjs';
 })
 export class CityWeatherComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
-  public isSettings = true;
+  public isSettings = false;
   @Input() geoLocation: GeoLocation;
-  @Output() geoLocationToRemove = new EventEmitter<GeoLocation>();
   @Input() currentLocationIndex: number;
   weatherData: WeatherData;
   faTrash = faTrash;
@@ -58,12 +57,6 @@ export class CityWeatherComponent implements OnInit, OnDestroy {
     );
     return new Date(cityDateString);
   }
-
-  onRemoveClick(geoLocation: GeoLocation): void {
-    this.geoLocationToRemove.emit(geoLocation);
-  }
-
-
 
   constructor(public weatherService: HttpWeatherService) {}
 

@@ -12,11 +12,6 @@
               <fa-icon [icon]="faCogs"></fa-icon>
             </button>
           </div>
-          <div class="col-2">
-            <button *ngIf="currentLocationIndex !== 0" class="btn text-danger" (click)="onRemoveClick(geoLocation)">
-              <fa-icon [icon]="faTrash"></fa-icon>
-            </button>
-          </div>
           <div class="col d-flex justify-content-end">
             <img src="https://openweathermap.org/img/wn/{{ weatherData.weather.icon }}.png" width="50" height="50">
           </div>
