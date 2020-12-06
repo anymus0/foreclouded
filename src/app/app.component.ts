@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Network } from '@ngx-pwa/offline';
 import { GeoLocation } from './models/geoLocation';
 import { HttpWeatherService } from './http-weather.service';
 import { EventService } from './event.service';
-import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
+  private subscriptions: Array<Subscription> = [];
   public online: boolean;
   public locations: Array<GeoLocation> = [];
   private currentLocation: GeoLocation = {
@@ -21,21 +22,24 @@ export class AppComponent implements OnInit {
   };
 
   private addLocation(locationQuery: string): void {
-    // get the coordinates from the input query
-    this.weatherService.getCoords(locationQuery).subscribe((location: any) => {
-      // create a new GeoLocation obj
-      const newGeoLocation: GeoLocation = {
-        name: location.features[0].properties.label,
-        latitude: location.features[0].geometry.coordinates[1],
-        longitude: location.features[0].geometry.coordinates[0],
-        background: null
-      };
-      // add the 'newGeoLocation' to the 'locations' arr
-      this.locations.push(newGeoLocation);
-      // save 'locations' to localStorage
-      // localStorage only supports strings
-      localStorage.setItem('locations', JSON.stringify(this.locations));
-    });
+    // add subscription to 'subscriptions' arr
+    this.subscriptions.push(
+      // get the coordinates from the input query
+      this.weatherService.getCoords(locationQuery).subscribe((location: any) => {
+        // create a new GeoLocation obj
+        const newGeoLocation: GeoLocation = {
+          name: location.features[0].properties.label,
+          latitude: location.features[0].geometry.coordinates[1],
+          longitude: location.features[0].geometry.coordinates[0],
+          background: null
+        };
+        // add the 'newGeoLocation' to the 'locations' arr
+        this.locations.push(newGeoLocation);
+        // save 'locations' to localStorage
+        // localStorage only supports strings
+        localStorage.setItem('locations', JSON.stringify(this.locations));
+      })
+    );
   }
 
   // set 'locations' arr from localStorage if it exists
@@ -66,16 +70,18 @@ export class AppComponent implements OnInit {
       navigator.geolocation.getCurrentPosition((currentLocation) => {
         const currentLat = currentLocation.coords.latitude;
         const currentLon = currentLocation.coords.longitude;
-        this.weatherService.getLocationByCoords(currentLat, currentLon).subscribe((geoLocation: any) => {
-          // refresh 'currentLocation' with the new values
-          this.currentLocation.name = `${geoLocation.features[0].properties.locality}, ${geoLocation.features[0].properties.country}`;
-          this.currentLocation.latitude = currentLat;
-          this.currentLocation.longitude = currentLon;
-          // save the refreshed 'currentLocation' to the 'locations' arr
-          this.locations[0] = this.currentLocation;
-          // save 'locations' arr to localStorage with the new 'currentLocation'
-          localStorage.setItem('locations', JSON.stringify(this.locations));
-        });
+        this.subscriptions.push(
+          this.weatherService.getLocationByCoords(currentLat, currentLon).subscribe((geoLocation: any) => {
+            // refresh 'currentLocation' with the new values
+            this.currentLocation.name = `${geoLocation.features[0].properties.locality}, ${geoLocation.features[0].properties.country}`;
+            this.currentLocation.latitude = currentLat;
+            this.currentLocation.longitude = currentLon;
+            // save the refreshed 'currentLocation' to the 'locations' arr
+            this.locations[0] = this.currentLocation;
+            // save 'locations' arr to localStorage with the new 'currentLocation'
+            localStorage.setItem('locations', JSON.stringify(this.locations));
+          })
+        );
       },
       (err => { console.log(err); }),
       { enableHighAccuracy: true });
@@ -93,21 +99,29 @@ export class AppComponent implements OnInit {
     localStorage.setItem('locations', JSON.stringify(this.locations));
   }
 
-  constructor(protected network: Network, public weatherService: HttpWeatherService, private eventService: EventService) {
-    this.network.onlineChanges.subscribe(onlineStatus => {
-      this.online = onlineStatus;
-      console.log(this.online);
-    });
-  }
+  constructor(protected network: Network, public weatherService: HttpWeatherService, private eventService: EventService) {}
 
   ngOnInit(): void {
+    this.subscriptions.push(
+      this.network.onlineChanges.subscribe(onlineStatus => {
+        // set current online/offline status (bool)
+        this.online = onlineStatus;
+      })
+    );
     this.setLocations();
-    // sub to addNewLocation event in case user adds a new location
-    this.eventService.newLocationEventListener().subscribe(newLocationQuery => {
-      // don't send request with empty string
-      if (newLocationQuery !== null && newLocationQuery !== '') {
-        this.addLocation(newLocationQuery);
-      }
-    });
+    this.subscriptions.push(
+      // sub to addNewLocation event in case user adds a new location
+      this.eventService.newLocationEventListener().subscribe(newLocationQuery => {
+        // don't send request with empty string
+        if (newLocationQuery !== null && newLocationQuery !== '') {
+          this.addLocation(newLocationQuery);
+        }
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    // unsubscribe from subscriptions
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }

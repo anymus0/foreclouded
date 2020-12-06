@@ -1,17 +1,19 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { HttpWeatherService } from './../http-weather.service';
 import { FormBuilder } from '@angular/forms';
 import { OpenWeatherOneCall, Hourly } from './../models/openWeatherOneCall';
 import { GeoLocation } from './../models/geoLocation';
 import { WeatherData, HourlyReport } from './../models/weatherData';
 import { faTrash, faImage, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-city-weather',
   templateUrl: './city-weather.component.html',
   styleUrls: ['./city-weather.component.scss']
 })
-export class CityWeatherComponent implements OnInit {
+export class CityWeatherComponent implements OnInit, OnDestroy {
+  private subscriptions: Array<Subscription> = [];
   @Input() geoLocation: GeoLocation;
   @Output() geoLocationToRemove = new EventEmitter<GeoLocation>();
   @Input() isCurrentLocation: boolean;
@@ -24,27 +26,29 @@ export class CityWeatherComponent implements OnInit {
   faPlus = faPlus;
 
   private getWeatherData(): void {
-    this.weatherService.getOpenWeatherOneCall(this.geoLocation.latitude, this.geoLocation.longitude).subscribe(
-      (weatherData: OpenWeatherOneCall) => {
-        // construct the hourReports arr & fill it with hourly objs
-        const hourReports: Array<HourlyReport> = [];
-        weatherData.hourly.forEach((hourReport: Hourly) => {
-          const newHourReport: HourlyReport = {
-            time: this.getCityDate(hourReport.dt, weatherData.timezone),
-            temp: hourReport.temp,
-            weather: hourReport.weather[0]
+    this.subscriptions.push(
+      this.weatherService.getOpenWeatherOneCall(this.geoLocation.latitude, this.geoLocation.longitude).subscribe(
+        (weatherData: OpenWeatherOneCall) => {
+          // construct the hourReports arr & fill it with hourly objs
+          const hourReports: Array<HourlyReport> = [];
+          weatherData.hourly.forEach((hourReport: Hourly) => {
+            const newHourReport: HourlyReport = {
+              time: this.getCityDate(hourReport.dt, weatherData.timezone),
+              temp: hourReport.temp,
+              weather: hourReport.weather[0]
+            };
+            hourReports.push(newHourReport);
+          });
+          // construct the weatherData & set it to 'weatherData' property
+          const newWeatherData: WeatherData = {
+            lastUpdated: this.getCityDate(weatherData.current.dt, weatherData.timezone),
+            temp: weatherData.current.temp,
+            weather: weatherData.current.weather[0],
+            hourly: hourReports
           };
-          hourReports.push(newHourReport);
-        });
-        // construct the weatherData & set it to 'weatherData' property
-        const newWeatherData: WeatherData = {
-          lastUpdated: this.getCityDate(weatherData.current.dt, weatherData.timezone),
-          temp: weatherData.current.temp,
-          weather: weatherData.current.weather[0],
-          hourly: hourReports
-        };
-        this.weatherData = newWeatherData;
-      }
+          this.weatherData = newWeatherData;
+        }
+      )
     );
   }
 
@@ -89,5 +93,10 @@ export class CityWeatherComponent implements OnInit {
     setInterval(() => {
       this.getWeatherData();
     }, 300000);
+  }
+
+  ngOnDestroy(): void {
+    // unsubscribe from subscriptions
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }
