@@ -3,9 +3,54 @@
     <div class="container">
       <div class="row">
         <div class="col d-flex justify-content-end">
-          <button class="btn text-danger closeBtn" (click)="onClose()">
+          <button class="btn text-danger" (click)="onClose()">
             <fa-icon [icon]="faWindowClose"></fa-icon>
           </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-2 col-3">
+          <div class="btn-group" dropdown [insideClick]="true" [isAnimated]="true">
+            <button
+              id="button-animated"
+              dropdownToggle
+              type="button"
+              class="btn dropdown-toggle button-big"
+              aria-controls="dropdown-animated"
+            >
+              <fa-icon [icon]="faImage"></fa-icon>
+            </button>
+            <ul
+              id="dropdown-animated"
+              *dropdownMenu
+              class="dropdown-menu"
+              role="menu"
+              aria-labelledby="button-animated"
+            >
+              <li role="menuitem">
+                <a class="dropdown-item">
+                  <form [formGroup]="bgURLForm">
+                    <input
+                    class="input form-control"
+                    type="text"
+                    placeholder="Image link"
+                    formControlName="bgURLInput"
+                  >
+                  </form>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item text-center">
+                  <button
+                    class="btn text-success"
+                    (click)="setBackground(bgURLForm.value.bgURLInput)"
+                  >
+                    <fa-icon [icon]="faPlus"></fa-icon>
+                  </button>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

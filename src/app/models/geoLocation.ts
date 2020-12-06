@@ -2,11 +2,10 @@ export interface GeoLocation {
   name: string;
   latitude: number;
   longitude: number;
-  background: string;
-  options?: Option;
+  options: Option;
 }
 
-interface Option {
+export interface Option {
   allowTextOverlay: boolean;
   background: string;
   fontColor: string;

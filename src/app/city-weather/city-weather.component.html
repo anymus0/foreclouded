@@ -1,62 +1,19 @@
 <ng-template [ngIf]="weatherData" [ngIfElse]="loading">
   <div
     class="card"
-    [appDynamicBackground]="geoLocation.background"
+    [appDynamicBackground]="geoLocation.options.background"
     *ngIf="!isSettings"
   >
     <div class="card-body">
       <div class="container">
         <div class="row">
-          <div class="col-lg-2 col-3">
-            <div class="btn-group" dropdown [insideClick]="true" [isAnimated]="true">
-              <button
-                id="button-animated"
-                dropdownToggle
-                type="button"
-                class="btn dropdown-toggle button-big"
-                aria-controls="dropdown-animated"
-              >
-                <fa-icon [icon]="faImage"></fa-icon>
-              </button>
-              <ul
-                id="dropdown-animated"
-                *dropdownMenu
-                class="dropdown-menu"
-                role="menu"
-                aria-labelledby="button-animated"
-              >
-                <li role="menuitem">
-                  <a class="dropdown-item">
-                    <form [formGroup]="bgURLForm">
-                      <input
-                      class="form-control"
-                      type="text"
-                      placeholder="Image link"
-                      formControlName="bgURLInput"
-                    >
-                    </form>
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item text-center">
-                    <button
-                      class="btn text-success"
-                      (click)="setBackground(bgURLForm.value.bgURLInput)"
-                    >
-                      <fa-icon [icon]="faPlus"></fa-icon>
-                    </button>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
           <div class="col-2">
             <button class="btn text-muted" (click)="isSettings = !isSettings">
               <fa-icon [icon]="faCogs"></fa-icon>
             </button>
           </div>
           <div class="col-2">
-            <button *ngIf="!isCurrentLocation" class="btn text-danger" (click)="onRemoveClick(geoLocation)">
+            <button *ngIf="currentLocationIndex !== 0" class="btn text-danger" (click)="onRemoveClick(geoLocation)">
               <fa-icon [icon]="faTrash"></fa-icon>
             </button>
           </div>
@@ -73,7 +30,7 @@
         <div class="row">
           <div class="col">
             <p class="card-text currentTemp">{{ weatherData.temp }} ℃</p>
-            <p *ngIf="isCurrentLocation"><strong>Current location</strong></p>
+            <p *ngIf="currentLocationIndex === 0"><strong>Current location</strong></p>
           </div>
         </div>
       </div>
@@ -81,6 +38,8 @@
   </div>
   <app-city-weather-settings
     *ngIf="isSettings"
+    [currentLocationIndex]="currentLocationIndex"
+    (locationSettingChangeEvent)="geoLocation.options = $event"
     (closeEvent)="isSettings = false"
   >
   </app-city-weather-settings>

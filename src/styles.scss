@@ -2,6 +2,8 @@
 :root {
   --success-color: #61b15a;
   --succes-secondary-color: #adce74;
+  --border-2: 2rem;
+  --box-shadow-primary: rgba(0, 0, 0, 0.35) 20px 20px 30px;
 }
 
 .darkTheme {
@@ -19,9 +21,14 @@
 html, body {
   height: 100%;
 }
+
 body {
   background-color: var(--primary-color);
   color: var(--font-color);
+}
+
+.input {
+  border-radius: var(--border-2);
 }
 
 .form-control {
@@ -41,10 +48,10 @@ body {
   background-color: var(--secondary-color);
   background-repeat: no-repeat;
   background-size: cover;
-  border-radius: 2rem;
+  border-radius: var(--border-2);
   border-style: none;
   border-width: 0px;
-  box-shadow: rgba(0, 0, 0, 0.35) 20px 20px 30px;
+  box-shadow: var(--box-shadow-primary);
   padding: 1rem;
   color: black;
 }

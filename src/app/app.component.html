@@ -9,7 +9,7 @@
         >
           <app-city-weather
             [geoLocation]="location"
-            [isCurrentLocation]="i === 0"
+            [currentLocationIndex]="i"
             (geoLocationToRemove)="removeCity($event)"
           >
           </app-city-weather>

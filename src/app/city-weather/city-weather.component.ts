@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { HttpWeatherService } from './../http-weather.service';
-import { FormBuilder } from '@angular/forms';
 import { OpenWeatherOneCall, Hourly } from './../models/openWeatherOneCall';
-import { GeoLocation } from './../models/geoLocation';
+import { GeoLocation, Option } from './../models/geoLocation';
 import { WeatherData, HourlyReport } from './../models/weatherData';
 import { faTrash, faImage, faPlus, faCogs } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
@@ -14,14 +13,11 @@ import { Subscription } from 'rxjs';
 })
 export class CityWeatherComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
-  public isSettings = false;
+  public isSettings = true;
   @Input() geoLocation: GeoLocation;
   @Output() geoLocationToRemove = new EventEmitter<GeoLocation>();
-  @Input() isCurrentLocation: boolean;
+  @Input() currentLocationIndex: number;
   weatherData: WeatherData;
-  bgURLForm = this.fb.group({
-    bgURLInput: null
-  });
   faTrash = faTrash;
   faImage = faImage;
   faPlus = faPlus;
@@ -67,34 +63,16 @@ export class CityWeatherComponent implements OnInit, OnDestroy {
     this.geoLocationToRemove.emit(geoLocation);
   }
 
-  public setBackground(bgUrl: string): void {
-    if (bgUrl === '') {
-      // set to null if string is empty
-      bgUrl = null;
-    }
-    const locations: Array<GeoLocation> = JSON.parse(localStorage.getItem('locations'));
-    // find index of current city
-    let i = 0;
-    locations.forEach((location, index) => {
-      if (location.name === this.geoLocation.name) {
-        i = index;
-      }
-    });
-    // set background URL for current city & save it back to localStorage
-    locations[i].background = bgUrl;
-    localStorage.setItem('locations', JSON.stringify(locations));
-    // update current geoLocation
-    this.geoLocation.background = bgUrl;
-  }
 
-  constructor(public fb: FormBuilder, public weatherService: HttpWeatherService) {}
+
+  constructor(public weatherService: HttpWeatherService) {}
 
   ngOnInit(): void {
     this.getWeatherData();
     // refresh weather data every 5 minutes
-    setInterval(() => {
-      this.getWeatherData();
-    }, 300000);
+    // setInterval(() => {
+    //   this.getWeatherData();
+    // }, 300000);
   }
 
   ngOnDestroy(): void {

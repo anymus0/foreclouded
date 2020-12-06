@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Network } from '@ngx-pwa/offline';
-import { GeoLocation } from './models/geoLocation';
+import { GeoLocation, Option } from './models/geoLocation';
 import { HttpWeatherService } from './http-weather.service';
 import { EventService } from './event.service';
 import { Subscription } from 'rxjs';
@@ -14,12 +14,8 @@ export class AppComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
   public online: boolean;
   public locations: Array<GeoLocation> = [];
-  private currentLocation: GeoLocation = {
-    name: '',
-    latitude: null,
-    longitude: null,
-    background: null
-  };
+  private defaultOption: Option;
+  private currentLocation: GeoLocation;
 
   private addLocation(locationQuery: string): void {
     // add subscription to 'subscriptions' arr
@@ -31,7 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
           name: location.features[0].properties.label,
           latitude: location.features[0].geometry.coordinates[1],
           longitude: location.features[0].geometry.coordinates[0],
-          background: null
+          options: this.defaultOption
         };
         // add the 'newGeoLocation' to the 'locations' arr
         this.locations.push(newGeoLocation);
@@ -99,7 +95,23 @@ export class AppComponent implements OnInit, OnDestroy {
     localStorage.setItem('locations', JSON.stringify(this.locations));
   }
 
-  constructor(protected network: Network, public weatherService: HttpWeatherService, private eventService: EventService) {}
+  constructor(
+    protected network: Network,
+    public weatherService: HttpWeatherService, private eventService: EventService
+  ) {
+    // set default property values
+    this.defaultOption = {
+      allowTextOverlay: false,
+      background: null,
+      fontColor: '#000'
+    };
+    this.currentLocation = {
+      name: '',
+      latitude: null,
+      longitude: null,
+      options: this.defaultOption
+    };
+  }
 
   ngOnInit(): void {
     this.subscriptions.push(
