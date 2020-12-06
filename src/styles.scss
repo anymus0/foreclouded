@@ -47,6 +47,14 @@ body {
   border: none;
 }
 
+.dropdown-menu {
+  background-color: var(--primary-color);
+  border-radius: var(--border-2);
+  box-shadow: var(--box-shadow-primary);
+  border-style: none;
+  color: white;
+}
+
 .card {
   height: 350px;
   background-color: var(--secondary-color);

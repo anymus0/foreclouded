@@ -1,20 +1,62 @@
 <nav class="navbar navbar-expand">
-  <p class="themeSwitchLabel mr-2">
-    <fa-icon [icon]="faSun" class="sun"></fa-icon>
-  </p>
-  <div class="custom-control custom-switch">
-    <input
-      type="checkbox"
-      class="custom-control-input"
-      id="themeSwitch"
-      (change)="changeTheme()"
-      [(ngModel)]="isDarkTheme"
+  <div class="btn-group" dropdown [insideClick]="true" [isAnimated]="true">
+    <button
+      id="button-animated"
+      dropdownToggle
+      type="button"
+      class="btn dropdown-toggle button-big"
+      aria-controls="dropdown-animated"
     >
-    <label class="custom-control-label" for="themeSwitch"></label>
+      <fa-icon [icon]="faCogs"></fa-icon>
+    </button>
+    <div
+      id="dropdown-animated"
+      *dropdownMenu
+      class="dropdown-menu"
+      role="menu"
+      aria-labelledby="button-animated"
+    >
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-1">
+            <p class="themeSwitchLabel mr-2">
+              <fa-icon [icon]="faSun" class="sun"></fa-icon>
+            </p>
+          </div>
+          <div class="col-3 mr-1">
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="themeSwitch"
+                (change)="changeTheme()"
+                [(ngModel)]="isDarkTheme"
+              >
+              <label class="custom-control-label" for="themeSwitch"></label>
+            </div>
+          </div>
+          <div class="col">
+            <p class="themeSwitchLabel">
+              <fa-icon [icon]="faMoon" class="moon"></fa-icon>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col d-block justify-content-center">
+            <button
+              type="button"
+              class="btn btn-danger button-small"
+              (click)="resetAppData()"
+            >
+              Reset App
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <p class="themeSwitchLabel">
-    <fa-icon [icon]="faMoon" class="moon"></fa-icon>
-  </p>
   <app-location-input></app-location-input>
 </nav>
+
+
 

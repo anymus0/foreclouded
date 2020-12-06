@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
+import { faSun, faMoon, faCogs } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-navbar',
@@ -10,8 +10,10 @@ export class NavbarComponent implements OnInit {
   isDarkTheme = false;
   faSun = faSun;
   faMoon = faMoon;
+  faCogs = faCogs;
 
-  changeTheme(): void {
+
+  public changeTheme(): void {
     // save 'isDarkTheme' to localStorage
     localStorage.setItem('isDarkTheme', JSON.stringify(this.isDarkTheme));
     // find <body>
@@ -24,6 +26,11 @@ export class NavbarComponent implements OnInit {
       body.classList.remove('darkTheme');
       body.classList.add('lightTheme');
     }
+  }
+
+  public resetAppData(): void {
+    localStorage.clear();
+    window.location.reload();
   }
 
   constructor() { }
