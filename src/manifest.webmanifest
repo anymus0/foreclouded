@@ -5,7 +5,7 @@
   "background_color": "#222831",
   "display": "fullscreen",
   "scope": "./",
-  "start_url": "./",
+  "start_url": "index.html",
   "icons": [
     {
       "src": "assets/icons/lightning-icon-72.png",
