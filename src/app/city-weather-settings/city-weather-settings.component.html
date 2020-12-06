@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-2 col-3">
+        <div class="col-lg-2 col-6">
           <div class="btn-group" dropdown [insideClick]="true" [isAnimated]="true">
             <button
               id="button-animated"
@@ -53,6 +53,7 @@
                     <button
                     class="btn text-warning"
                     (click)="setBackground(null)"
+                    tooltip="reset background"
                   >
                     <fa-icon [icon]="faUndo"></fa-icon>
                   </button>
