@@ -81,7 +81,7 @@
   </div>
   <app-city-weather-settings
     *ngIf="isSettings"
-    (click)="isSettings = !isSettings"
+    (closeEvent)="isSettings = false"
   >
   </app-city-weather-settings>
 </ng-template>
