@@ -63,9 +63,9 @@ export class CityWeatherComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getWeatherData();
     // refresh weather data every 5 minutes
-    // setInterval(() => {
-    //   this.getWeatherData();
-    // }, 300000);
+    setInterval(() => {
+      this.getWeatherData();
+    }, 300000);
   }
 
   ngOnDestroy(): void {
