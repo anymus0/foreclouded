@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { HourlyReport } from './../../models/weatherData';
 
 @Component({
   selector: 'app-hourly-weather',
@@ -6,8 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./hourly-weather.component.scss']
 })
 export class HourlyWeatherComponent implements OnInit {
+  @Input() hourReports: Array<HourlyReport>;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
   }

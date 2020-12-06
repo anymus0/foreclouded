@@ -28,14 +28,16 @@ export class CityWeatherComponent implements OnInit, OnDestroy {
         (weatherData: OpenWeatherOneCall) => {
           // construct the hourReports arr & fill it with hourly objs
           const hourReports: Array<HourlyReport> = [];
-          weatherData.hourly.forEach((hourReport: Hourly) => {
+          // get hourly forecast for the next 24 hours (exclude current hour)
+          for (let index = 1; index <= 24; index++) {
+            const hourReport = weatherData.hourly[index];
             const newHourReport: HourlyReport = {
               time: this.getCityDate(hourReport.dt, weatherData.timezone),
               temp: hourReport.temp,
               weather: hourReport.weather[0]
             };
             hourReports.push(newHourReport);
-          });
+          }
           // construct the weatherData & set it to 'weatherData' property
           const newWeatherData: WeatherData = {
             lastUpdated: this.getCityDate(weatherData.current.dt, weatherData.timezone),

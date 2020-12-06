@@ -21,11 +21,19 @@
             <p><strong>{{ weatherData.lastUpdated | date:'EEE, h:mm aaa' }}</strong></p>
             <h4 class="card-title">{{ geoLocation.name }}</h4>
           </div>
+          <div class="col d-flex justify-content-end"  *ngIf="currentLocationIndex === 0">
+            <p><strong>Current location</strong></p>
+          </div>
         </div>
         <div class="row">
           <div class="col">
-            <p class="card-text currentTemp">{{ weatherData.temp }} ℃</p>
-            <p *ngIf="currentLocationIndex === 0"><strong>Current location</strong></p>
+            <p class="card-text currentTemp"><strong>{{ weatherData.temp }} ℃</strong></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col p-0 mt-2">
+            <app-hourly-weather [hourReports]="weatherData.hourly">
+            </app-hourly-weather>
           </div>
         </div>
       </div>
