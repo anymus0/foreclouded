@@ -2,7 +2,7 @@
   "name": "Foreclouded",
   "short_name": "FRCL",
   "theme_color": "#393e46",
-  "background_color": "#222831",
+  "background_color": "#0e1828",
   "display": "fullscreen",
   "scope": "./",
   "start_url": "index.html",
