@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { EventService } from '../event.service';
-import { faTrash, faImage, faPlus, faWindowClose } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faImage, faPlus, faWindowClose, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { GeoLocation, Option } from './../models/geoLocation';
 
 @Component({
@@ -16,11 +16,21 @@ export class CityWeatherSettingsComponent implements OnInit {
   bgURLForm = this.fb.group({
     bgURLInput: null
   });
+  locations: Array<GeoLocation>;
   faTrash = faTrash;
   faImage = faImage;
   faPlus = faPlus;
+  faUndo = faUndo;
   faWindowClose = faWindowClose;
-  locations: Array<GeoLocation>;
+
+  private saveOptions(): void {
+    // save the changed 'locations' arr to localStorage
+    localStorage.setItem('locations', JSON.stringify(this.locations));
+    // update current geoLocation options
+    this.locationSettingChangeEvent.emit(
+      this.locations[this.currentLocationIndex].options
+    );
+  }
 
   public setBackground(bgUrl: string): void {
     if (bgUrl === '') {
@@ -29,11 +39,9 @@ export class CityWeatherSettingsComponent implements OnInit {
     }
     // set background URL for current city & save it back to localStorage
     this.locations[this.currentLocationIndex].options.background = bgUrl;
-    localStorage.setItem('locations', JSON.stringify(this.locations));
-    // update current geoLocation
-    this.locationSettingChangeEvent.emit(
-      this.locations[this.currentLocationIndex].options
-    );
+    this.saveOptions();
+    // reset bgURLForm
+    this.bgURLForm.reset();
   }
 
   onRemoveClick(): void {
