@@ -36,7 +36,7 @@ import { CityWeatherSettingsComponent } from './city-weather-settings/city-weath
     FontAwesomeModule,
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production, registrationStrategy: 'registerImmediately' })
   ],
   providers: [],
   bootstrap: [AppComponent]
