@@ -17,10 +17,15 @@ nav {
 }
 
 .dropdown-menu {
+  color: var(--font-color);
+  min-width: 15rem;
   div.container-fluid {
-    margin: 1rem;
+    margin-left: 1rem;
   }
   div.row {
     margin-bottom: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 }

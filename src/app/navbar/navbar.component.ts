@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faSun, faMoon, faCogs } from '@fortawesome/free-solid-svg-icons';
+import { EventService } from './../event.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,6 +9,7 @@ import { faSun, faMoon, faCogs } from '@fortawesome/free-solid-svg-icons';
 })
 export class NavbarComponent implements OnInit {
   isDarkTheme = false;
+  isCurrentLocationHidden = false;
   faSun = faSun;
   faMoon = faMoon;
   faCogs = faCogs;
@@ -33,12 +35,20 @@ export class NavbarComponent implements OnInit {
     window.location.reload();
   }
 
-  constructor() { }
+  public changeIsCurrentLocationHidden(): void {
+    localStorage.setItem('isCurrentLocationHidden', JSON.stringify(this.isCurrentLocationHidden));
+    this.eventService.emitHideCurrentLocation(this.isCurrentLocationHidden);
+  }
+
+  constructor(private eventService: EventService) {}
 
   ngOnInit(): void {
     // set theme
     this.isDarkTheme = JSON.parse(localStorage.getItem('isDarkTheme'));
     this.changeTheme();
+    // set currentLocation visibility
+    this.isCurrentLocationHidden = JSON.parse(localStorage.getItem('isCurrentLocationHidden'));
+    this.changeIsCurrentLocationHidden();
   }
 
 }

@@ -8,6 +8,7 @@ import { GeoLocation } from './models/geoLocation';
 export class EventService {
   private addNewLocationEvent = new BehaviorSubject<string>(null);
   private removeLocationEvent = new BehaviorSubject<GeoLocation>(null);
+  private hideCurrentLocationEvent = new BehaviorSubject<boolean>(false);
 
   emitNewLocationEvent(location: string): void {
     // validate 'location' string
@@ -22,12 +23,22 @@ export class EventService {
     }
   }
 
+  emitHideCurrentLocation(isHidden: boolean): void {
+    if (isHidden !== null) {
+      this.hideCurrentLocationEvent.next(isHidden);
+    }
+  }
+
   newLocationEventListener(): Observable<string> {
     return this.addNewLocationEvent.asObservable();
   }
 
   removeLocationEventListener(): Observable<GeoLocation> {
     return this.removeLocationEvent.asObservable();
+  }
+
+  hideCurrentLocationEventListener(): Observable<boolean> {
+    return this.hideCurrentLocationEvent.asObservable();
   }
 
   constructor() { }

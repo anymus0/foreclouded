@@ -15,6 +15,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public online: boolean;
   public locations: Array<GeoLocation> = [];
   private defaultOption: Option;
+  public isCurrentLocationHidden: boolean;
 
   private addLocation(locationQuery: string): void {
     // add subscription to 'subscriptions' arr
@@ -78,7 +79,6 @@ export class AppComponent implements OnInit, OnDestroy {
             if (this.locations[0]) {
               currentLocation.options = this.locations[0].options;
             }
-            console.log(currentLocation.options.background);
             // save the refreshed 'currentLocation' to the 'locations' arr
             this.locations[0] = currentLocation;
             // save 'locations' arr to localStorage with the new 'currentLocation'
@@ -139,6 +139,11 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       })
     );
+    this.subscriptions.push(
+      this.eventService.hideCurrentLocationEventListener().subscribe(isHidden => {
+        this.isCurrentLocationHidden = isHidden;
+      })
+    )
   }
 
   ngOnDestroy(): void {

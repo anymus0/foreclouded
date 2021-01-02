@@ -10,6 +10,7 @@
           <app-city-weather
             [geoLocation]="location"
             [currentLocationIndex]="i"
+            *ngIf="i === 0 && isCurrentLocationHidden === false"
           >
           </app-city-weather>
         </div>
