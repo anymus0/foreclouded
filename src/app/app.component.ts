@@ -15,7 +15,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public online: boolean;
   public locations: Array<GeoLocation> = [];
   private defaultOption: Option;
-  private currentLocation: GeoLocation;
 
   private addLocation(locationQuery: string): void {
     // add subscription to 'subscriptions' arr
@@ -63,17 +62,25 @@ export class AppComponent implements OnInit, OnDestroy {
   private setCurrentLocation(): void {
     if (navigator.geolocation) {
       // success callback
-      navigator.geolocation.getCurrentPosition((currentLocation) => {
-        const currentLat = currentLocation.coords.latitude;
-        const currentLon = currentLocation.coords.longitude;
+      navigator.geolocation.getCurrentPosition((currentPosition) => {
+        const currentLat = currentPosition.coords.latitude;
+        const currentLon = currentPosition.coords.longitude;
         this.subscriptions.push(
           this.weatherService.getLocationByCoords(currentLat, currentLon).subscribe((geoLocation: any) => {
-            // refresh 'currentLocation' with the new values
-            this.currentLocation.name = `${geoLocation.features[0].properties.locality}, ${geoLocation.features[0].properties.country}`;
-            this.currentLocation.latitude = currentLat;
-            this.currentLocation.longitude = currentLon;
+            // create 'currentLocation' obj
+            const currentLocation: GeoLocation = {
+              name: `${geoLocation.features[0].properties.locality}, ${geoLocation.features[0].properties.country}`,
+              latitude: currentLat,
+              longitude: currentLon,
+              options: this.defaultOption
+            };
+            // set previous options if it exists
+            if (this.locations[0]) {
+              currentLocation.options = this.locations[0].options;
+            }
+            console.log(currentLocation.options.background);
             // save the refreshed 'currentLocation' to the 'locations' arr
-            this.locations[0] = this.currentLocation;
+            this.locations[0] = currentLocation;
             // save 'locations' arr to localStorage with the new 'currentLocation'
             localStorage.setItem('locations', JSON.stringify(this.locations));
           })
@@ -104,12 +111,6 @@ export class AppComponent implements OnInit, OnDestroy {
       allowTextOverlay: false,
       background: null,
       fontColor: '#000'
-    };
-    this.currentLocation = {
-      name: '',
-      latitude: null,
-      longitude: null,
-      options: this.defaultOption
     };
   }
 
