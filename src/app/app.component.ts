@@ -17,6 +17,10 @@ export class AppComponent implements OnInit, OnDestroy {
   private defaultOption: Option;
   public isCurrentLocationHidden: boolean;
 
+  public counter(i: number): Array<number> {
+    return new Array(i);
+  }
+
   private addLocation(locationQuery: string): void {
     // add subscription to 'subscriptions' arr
     this.subscriptions.push(
